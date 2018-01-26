@@ -1,33 +1,42 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from apscheduler.schedulers.blocking import BlockingScheduler
 
-url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
+sched = BlockingScheduler()
 
-page = requests.get(url);
-soup = BeautifulSoup(page.content, 'html.parser')
+@sched.scheduled_job('interval', seconds=10, id='scanRightmove')
+def scanRightmove():
+    url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
 
-data = soup.select('div.l-searchResult.is-list')
-old_links = json.load(open('got.json'))
+    page = requests.get(url);
+    soup = BeautifulSoup(page.content, 'html.parser')
 
-links_today = []
-t_url = 'https://api.telegram.org/bot538125304:AAEodL7ns7iuTbbpRPgpLteOs-o4UAunV6k/sendMessage'
-headers = {'Content-Type': 'application/json'}
+    data = soup.select('div.l-searchResult.is-list')
+    old_links = json.load(open('got.json'))
 
-for property in soup.select('div.l-searchResult.is-list'):
-    added = property.select('span.propertyCard-branchSummary-addedOrReduced')[0].get_text()
-    payload = {'chat_id': '@rightmove_alerts'}
+    links_today = []
+    t_url = 'https://api.telegram.org/bot538125304:AAEodL7ns7iuTbbpRPgpLteOs-o4UAunV6k/sendMessage'
+    headers = {'Content-Type': 'application/json'}
 
-    if added == 'Added today':
-        link = property.select('a.propertyCard-link')[0].get('href')
-        full_link = 'http://www.rightmove.co.uk' + link
+    for property in soup.select('div.l-searchResult.is-list'):
+        added = property.select('span.propertyCard-branchSummary-addedOrReduced')[0].get_text()
+        payload = {'chat_id': '@rightmove_alerts'}
 
-        if full_link not in old_links:
-            links_today.append(full_link)
-            payload['text'] = full_link
-            requests.post(t_url, data=json.dumps(payload), headers=headers);
+        if added == 'Added today' or added == 'Reduced today':
+            link = property.select('a.propertyCard-link')[0].get('href')
+            full_link = 'http://www.rightmove.co.uk' + link
 
-old_links = old_links + links_today
+            if full_link not in old_links:
+                links_today.append(full_link)
+                payload['text'] = full_link
+                requests.post(t_url, data=json.dumps(payload), headers=headers);
 
-with open('got.json', 'w') as outfile:
-    json.dump(old_links, outfile)
+    old_links = old_links + links_today
+
+    with open('got.json', 'w') as outfile:
+        json.dump(old_links, outfile)
+
+    print('Hello')
+
+sched.start()
