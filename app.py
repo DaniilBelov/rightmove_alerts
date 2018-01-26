@@ -16,7 +16,7 @@ def scanRightmove():
     old_links = json.load(open('got.json'))
 
     links_today = []
-    t_url = 'https://api.telegram.org/bot538125304:/sendMessage'
+    t_url = 'https://api.telegram.org/bot538125304:AAEodL7ns7iuTbbpRPgpLteOs-o4UAunV6k/sendMessage'
     headers = {'Content-Type': 'application/json'}
 
     for property in soup.select('div.l-searchResult.is-list'):
