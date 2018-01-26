@@ -5,7 +5,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', seconds=10, id='scanRightmove')
+@sched.scheduled_job('interval', hours=4, id='scanRightmove')
 def scanRightmove():
     url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
 
@@ -16,7 +16,7 @@ def scanRightmove():
     old_links = json.load(open('got.json'))
 
     links_today = []
-    t_url = 'https://api.telegram.org/bot538125304:AAEodL7ns7iuTbbpRPgpLteOs-o4UAunV6k/sendMessage'
+    t_url = 'https://api.telegram.org/bot538125304:/sendMessage'
     headers = {'Content-Type': 'application/json'}
 
     for property in soup.select('div.l-searchResult.is-list'):
