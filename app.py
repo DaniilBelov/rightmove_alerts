@@ -1,11 +1,11 @@
-import requests
 from bs4 import BeautifulSoup
 import json
 from apscheduler.schedulers.blocking import BlockingScheduler
+import requests
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', hours=4, id='scanRightmove')
+@sched.scheduled_job('interval', seconds=30, id='scanRightmove')
 def scanRightmove():
     url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
 
