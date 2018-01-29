@@ -10,6 +10,7 @@ name = "pypi"
 requests = "*"
 "bs4" = "*"
 apscheduler = "*"
+reppy = "*"
 
 
 [dev-packages]

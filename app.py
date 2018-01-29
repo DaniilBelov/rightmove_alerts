@@ -3,14 +3,22 @@ import json
 from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
 import os
+from reppy.robots import Robots
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', hours=4, id='scanRightmove')
+@sched.scheduled_job('interval', seconds=10, id='scanRightmove')
 def scanRightmove():
+    headers = {'User-Agent': 'Dan070Bot(daniilbelov98@yandex.ru)'}
     url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
+
+    robots = Robots.fetch('http://www.rightmove.co.uk/robots.txt', headers=headers)
+    allowed = robots.allowed('http://www.rightmove.co.uk/property-to-rent/find.html?*', 'Dan070Bot(daniilbelov98@yandex.ru)')
+
+    if not allowed:
+        return
 
     page = requests.get(url);
     soup = BeautifulSoup(page.content, 'html.parser')

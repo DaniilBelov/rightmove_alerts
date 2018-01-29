@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "8d40ccae48790fe8cb5f3f6993d0bd386f41a7a85e3c8485112df66c98a6f7e9"
+            "sha256": "343998cf434f15e689e513be5e6ab2d3922ce64e04f72dd332d5cba915dded58"
         },
         "host-environment-markers": {
             "implementation_name": "cpython",
@@ -48,6 +48,13 @@
             ],
             "version": "==0.0.1"
         },
+        "cachetools": {
+            "hashes": [
+                "sha256:4319bbb78172e7bcf99423e1ecd6914b32336ccfe97d2058ffe62e641a7f3abe",
+                "sha256:ede01f2d3cbd6ddc9e35e16c2b0ce011d8bb70ce0dbaf282f5b4df24b213bc5d"
+            ],
+            "version": "==2.0.1"
+        },
         "certifi": {
             "hashes": [
                 "sha256:14131608ad2fd56836d33a71ee60fa1c82bc9d2c8d98b7bdbc631fe1b3cd1296",
@@ -69,6 +76,13 @@
             ],
             "version": "==2.6"
         },
+        "python-dateutil": {
+            "hashes": [
+                "sha256:95511bae634d69bc7329ba55e646499a842bc4ec342ad54a8cdb65645a0aad3c",
+                "sha256:891c38b2a02f5bb1be3e4793866c8df49c7d19baabf9c1bad62547e0b4866aca"
+            ],
+            "version": "==2.6.1"
+        },
         "pytz": {
             "hashes": [
                 "sha256:80af0f3008046b9975242012a985f04c5df1f01eed4ec1633d56cc47a75a6a48",
@@ -82,6 +96,12 @@
                 "sha256:fae4cffc040921b8a2d60c6cf0b5d662c1190fe54d718271db4eb17d44a185b7"
             ],
             "version": "==2017.3"
+        },
+        "reppy": {
+            "hashes": [
+                "sha256:cff450492000f185e2dee4f02d2fe5ebd05977edd890cc6edc0969733d158391"
+            ],
+            "version": "==0.4.9"
         },
         "requests": {
             "hashes": [
