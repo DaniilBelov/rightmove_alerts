@@ -20,7 +20,7 @@ def scanRightmove():
     if not allowed:
         return
 
-    page = requests.get(url);
+    page = requests.get(url, headers=headers);
     soup = BeautifulSoup(page.content, 'html.parser')
 
     data = soup.select('div.l-searchResult.is-list')
