@@ -42,4 +42,10 @@ def scanRightmove():
 
     print('Cycle')
 
+
+@sched.scheduled_job('cron', minute=0, hour=0, id='clearOldLinks')
+def clearoldLinks()
+    with open(os.path.join(__location__, 'got.json'), 'w') as outfile:
+        json.dump([], outfile)
+
 sched.start()
