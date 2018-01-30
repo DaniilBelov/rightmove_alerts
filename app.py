@@ -9,7 +9,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', hours=4, id='scanRightmove')
+@sched.scheduled_job('interval', seconds=30, id='scanRightmove')
 def scanRightmove():
     headers = {'User-Agent': 'Dan070Bot(daniilbelov98@yandex.ru)'}
     url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
@@ -24,7 +24,9 @@ def scanRightmove():
     soup = BeautifulSoup(page.content, 'html.parser')
 
     data = soup.select('div.l-searchResult.is-list')
-    old_links = json.load(os.path.join(__location__, 'got.json'))
+
+    with open(os.path.join(__location__, 'got.json')) as data_file:
+        old_links = json.load(data_file)
 
     links_today = []
     t_url = 'https://api.telegram.org/bot538125304:AAEodL7ns7iuTbbpRPgpLteOs-o4UAunV6k/sendMessage'
