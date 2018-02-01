@@ -47,7 +47,7 @@ def scanRightmove():
     print('Cycle')
 
 
-@sched.scheduled_job('cron', hours=0, minutes=30, id='clearLinks')
+@sched.scheduled_job('cron', hour=0, minute=30, id='clearLinks')
 def clearLinks():
     db = DB()
     db.clear()
