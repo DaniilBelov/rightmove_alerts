@@ -10,7 +10,7 @@ __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('interval', seconds=30, id='scanRightmove')
+@sched.scheduled_job('cron', minute=50, id='scanRightmove')
 def scanRightmove():
     db = DB()
     headers = {'User-Agent': 'Dan070Bot(daniilbelov98@yandex.ru)'}
@@ -47,10 +47,10 @@ def scanRightmove():
     print('Cycle')
 
 
-# @sched.scheduled_job('interval', minutes=1, id='clearLinks')
-# def clearLinks():
-#     db = DB()
-#     db.clear()
-#     db.close()
+@sched.scheduled_job('cron', hours=0, minutes=30, id='clearLinks')
+def clearLinks():
+    db = DB()
+    db.clear()
+    db.close()
 
 sched.start()
