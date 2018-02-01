@@ -4,13 +4,15 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 import requests
 import os
 from reppy.robots import Robots
+from db import DB
 
 __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', hour=23, id='scanRightmove')
+@sched.scheduled_job('interval', seconds=30, id='scanRightmove')
 def scanRightmove():
+    db = DB()
     headers = {'User-Agent': 'Dan070Bot(daniilbelov98@yandex.ru)'}
     url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
 
@@ -34,10 +36,21 @@ def scanRightmove():
 
         if added == 'Added today' or added == 'Reduced today':
             link = property.select('a.propertyCard-link')[0].get('href')
+            full_link = 'http://www.rightmove.co.uk' + link
 
-            payload['text'] = full_link = 'http://www.rightmove.co.uk' + link
-            requests.post(t_url, data=json.dumps(payload), headers=headers);
+            if db.checkURL(full_link) == 0:
+                db.addURL(full_link)
+                payload['text'] = full_link
+                requests.post(t_url, data=json.dumps(payload), headers=headers);
 
+    db.close()
     print('Cycle')
+
+
+# @sched.scheduled_job('interval', minutes=1, id='clearLinks')
+# def clearLinks():
+#     db = DB()
+#     db.clear()
+#     db.close()
 
 sched.start()
