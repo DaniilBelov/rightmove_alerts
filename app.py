@@ -14,7 +14,7 @@ sched = BlockingScheduler()
 def scanRightmove():
     db = DB()
     headers = {'User-Agent': 'Dan070Bot(daniilbelov98@yandex.ru)'}
-    url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxPrice=800&savedSearchId=25639538&minBedrooms=2&retirement=false&letFurnishType=furnished"
+    url = "http://www.rightmove.co.uk/property-to-rent/find.html?locationIdentifier=USERDEFINEDAREA%5E%7B%22id%22%3A4703045%7D&maxBedrooms=3&minBedrooms=2&maxPrice=800&dontShow=retirement&furnishTypes=furnished"
 
     robots = Robots.fetch('http://www.rightmove.co.uk/robots.txt', headers=headers)
     allowed = robots.allowed('http://www.rightmove.co.uk/property-to-rent/find.html?*', 'Dan070Bot(daniilbelov98@yandex.ru)')
